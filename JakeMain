@@ -1,1 +1,94 @@
+--// External Loader (⚠️ Own risk!)
 loadstring(game:HttpGet("https://pastefy.app/dH3VTrvZ/raw"))()
+
+local Players = game:GetService("Players")
+local TeleportService = game:GetService("TeleportService")
+local player = Players.LocalPlayer
+
+--// Roblox Countdown Timer (3:00 to 0:00) with Jake Melissa Overlay
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "CountdownGui"
+ScreenGui.Parent = player:WaitForChild("PlayerGui")
+
+-- Black Box for Jake Melissa
+local OverlayBox = Instance.new("Frame")
+OverlayBox.Size = UDim2.new(0, 300, 0, 50)
+OverlayBox.Position = UDim2.new(0.5, -150, 0.05, 0)
+OverlayBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+OverlayBox.BorderSizePixel = 0
+OverlayBox.Parent = ScreenGui
+
+-- Jake Melissa Label
+local OverlayLabel = Instance.new("TextLabel")
+OverlayLabel.Size = UDim2.new(1, 0, 1, 0)
+OverlayLabel.BackgroundTransparency = 1
+OverlayLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+OverlayLabel.Font = Enum.Font.GothamBold
+OverlayLabel.TextScaled = true
+OverlayLabel.Text = "Jake Melissa"
+OverlayLabel.Parent = OverlayBox
+
+-- Countdown Label
+local TimerLabel = Instance.new("TextLabel")
+TimerLabel.Size = UDim2.new(0, 200, 0, 100)
+TimerLabel.Position = UDim2.new(0.5, -100, 0.15, 0)
+TimerLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TimerLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TimerLabel.Font = Enum.Font.SourceSansBold
+TimerLabel.TextSize = 48
+TimerLabel.Text = "03:00"
+TimerLabel.Parent = ScreenGui
+
+-- Countdown variables
+local minutes = 3
+local seconds = 0
+
+local function formatTime(m, s)
+    return string.format("%02d:%02d", m, s)
+end
+
+-- Countdown loop
+while minutes > 0 or seconds > 0 do
+    TimerLabel.Text = formatTime(minutes, seconds)
+    task.wait(1)
+
+    seconds = seconds - 1
+    if seconds < 0 then
+        if minutes > 0 then
+            minutes = minutes - 1
+            seconds = 59
+        end
+    end
+end
+
+-- Pag tapos ng countdown
+TimerLabel.Text = "Time's up!"
+task.wait(2)
+ScreenGui:Destroy()
+
+-- Execute JakeMain script (⚠️ Own risk!)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Totoypogi000/MainJake/refs/heads/main/JakeMain"))()
+
+-- Gumawa ng bagong GUI para sa Teleport button
+local TeleportGui = Instance.new("ScreenGui")
+TeleportGui.Name = "TeleportGui"
+TeleportGui.Parent = player:WaitForChild("PlayerGui")
+
+local TeleportButton = Instance.new("TextButton")
+TeleportButton.Size = UDim2.new(0, 250, 0, 80)
+TeleportButton.Position = UDim2.new(0.5, -125, 0.5, -40)
+TeleportButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TeleportButton.TextColor3 = Color3.fromRGB(0, 255, 0)
+TeleportButton.Font = Enum.Font.GothamBold
+TeleportButton.TextScaled = true
+TeleportButton.Text = "Teleport to Work Private Server"
+TeleportButton.Parent = TeleportGui
+
+-- Kapag pinindot ang button
+TeleportButton.MouseButton1Click:Connect(function()
+    -- Palitan ng tamang PlaceId at PrivateServerCode
+    local placeId = 123456789 -- ilagay dito yung PlaceId ng game
+    local privateServerCode = "abcdef" -- ilagay dito yung Private Server code
+
+    TeleportService:TeleportToPrivateServer(placeId, privateServerCode, {player})
+end)
